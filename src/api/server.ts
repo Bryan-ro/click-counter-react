@@ -1,9 +1,12 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
-export default axios.create({
+const server: AxiosInstance = axios.create({
     baseURL: "http://localhost:4444",
+    validateStatus: (status) => {
+        return status < 500;
+    },
     timeout: 10000,
-    timeoutErrorMessage: "Failed to connect to the server, please try again later"
+    timeoutErrorMessage: "Failed to connect to the server, please try again later",
 });
 
-
+export default server;
