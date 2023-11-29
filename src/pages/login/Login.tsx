@@ -7,7 +7,7 @@ import Loading from "../../components/Loading";
 import LoggedIn from "../../components/LoggedIn";
 import logo from "/whiteLogo.png";
 import React, { useState } from "react";
-
+import Cookie from "universal-cookie";
 
 interface loginResponseProps extends AxiosResponse {
     data: {
@@ -24,6 +24,8 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const cookie = new Cookie();
+
     const verifyCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
@@ -37,7 +39,7 @@ export default function Login() {
             if (login.status === 401) {
                 setErrorMessage("Usuário ou senha incorreta.");
             } else {
-                localStorage.setItem("credentials", JSON.stringify(login.data));
+                cookie.set("token", login.data.token);
                 window.location.replace("/");
             }
         } catch (error) {
@@ -82,7 +84,7 @@ export default function Login() {
 
                     <div className="flex w-full sm:gap-6 gap-2 items-center sm:flex-row flex-col">
                         <Button value="Entrar" />
-                        <a href="#" className="font-nunito text-sm text-primary">Não tenho uma conta</a>
+                        <a href="/account/create" className="font-nunito text-sm text-primary">Não tenho uma conta</a>
                     </div>
                 </form>
             </div>

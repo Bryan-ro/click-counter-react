@@ -1,4 +1,5 @@
 import React, { ChangeEventHandler } from "react";
+import InputMask from "react-input-mask";
 
 interface InputProps {
     type: React.HTMLInputTypeAttribute;
@@ -6,10 +7,11 @@ interface InputProps {
     id: string;
     onChange?: ChangeEventHandler<HTMLInputElement>;
     required?: boolean
+    mask?: string;
 }
 
-export default function Input (props: InputProps) {
+export default function Input(props: InputProps) {
     return (
-        <input type={props.type} placeholder={props.placeholder} className="rounded-md focus:outline-none border indent-2 h-10" id={props.id} onChange={props.onChange} required={props.required}/>
+        <InputMask type={props.type} placeholder={props.placeholder} className="rounded-md focus:outline-none border indent-2 h-10" id={props.id} onChange={props.onChange} required={props.required} mask={props.mask ?? ""} maskChar={null} />
     );
 }
