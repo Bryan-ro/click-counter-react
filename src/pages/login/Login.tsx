@@ -21,7 +21,11 @@ interface loginResponseProps extends AxiosResponse {
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+    const [ModalMessage, setModalMessage] = useState({
+        active: false,
+        message: "",
+        icon: "" as "warning" | "success" | "error"
+    });
     const [loading, setLoading] = useState(false);
 
     const cookie = new Cookie();
@@ -37,14 +41,22 @@ export default function Login() {
             });
 
             if (login.status === 401) {
-                setErrorMessage("Usuário ou senha incorreta.");
+                setModalMessage({
+                    active: true,
+                    message: "Usuário ou senha incorreta.",
+                    icon: "error"
+                });
             } else {
                 cookie.set("token", login.data.token);
                 window.location.replace("/");
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                if (error.code === "ERR_NETWORK") setErrorMessage("Sem conexão com o servidor. Tente novamente mais tarde");
+                if (error.code === "ERR_NETWORK") setModalMessage({
+                    active: true,
+                    message: "Sem conexão com o servidor. Tente novamente mais tarde",
+                    icon: "error"
+                });
             }
         }
 
@@ -55,8 +67,12 @@ export default function Login() {
         <main className="flex justify-center h-screen items-center">
             <LoggedIn redirectTo="/" redirectIfLoggedIn={true} />
 
-            {errorMessage && (
-                <Modal icon="error" message={errorMessage} buttonText="OK" funcToClose={() => setErrorMessage("")} />
+            {ModalMessage.active && (
+                <Modal icon={ModalMessage.icon} message={ModalMessage.message} buttonText="OK" funcToClose={() => setModalMessage({
+                    active: false,
+                    message: "",
+                    icon: "success"
+                })} />
             )}
 
             {
@@ -79,7 +95,22 @@ export default function Login() {
                     <div className="flex flex-col w-full">
                         <label htmlFor="password" className="font-nunito text-primary text-lg">Senha</label>
                         <Input type="password" placeholder="Digite sua senha" required={true} id="password" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
-                        <a href="#" className="font-nunito text-sm indent-2 text-primary">Esqueci minha senha</a>
+                        <a onClick={() => {
+                            if (email) {
+                                server.patch(`/users/password/reset/${email}`);
+                                setModalMessage({
+                                    active: true,
+                                    icon: "warning",
+                                    message: "Uma nova senha foi enviada para o seu e-mail. Caso não receba, verifique se digitou seu e-mail corretamente."
+                                });
+                            } else {
+                                setModalMessage({
+                                    active: true,
+                                    icon: "error",
+                                    message: "Digite seu e-mail antes de clicar em 'esqueci minha senha'"
+                                });
+                            }
+                        }} className="font-nunito text-sm indent-2 text-primary cursor-pointer">Esqueci minha senha</a>
                     </div>
 
                     <div className="flex w-full sm:gap-6 gap-2 items-center sm:flex-row flex-col">
@@ -87,7 +118,7 @@ export default function Login() {
                         <a href="/account/create" className="font-nunito text-sm text-primary">Não tenho uma conta</a>
                     </div>
                 </form>
-            </div>
-        </main>
+            </div >
+        </main >
     );
 }

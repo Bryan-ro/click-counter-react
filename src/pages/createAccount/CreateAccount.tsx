@@ -1,8 +1,12 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import server from "../../api/server";
 import logo from "/whiteLogo.png";
 import Input from "../../components/Input";
 import Button from "../../components/PrimaryButton";
-
+import axios from "axios";
+import Modal from "../../components/Modal";
+import Loading from "../../components/Loading";
+import LoggedIn from "../../components/LoggedIn";
 
 export default function CreateAccount() {
     const [name, setName] = useState("");
@@ -10,29 +14,64 @@ export default function CreateAccount() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [strongPassword, setStrongPassword] = useState(false);
+    const [validForm, setValidForm] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const testForm = () => {
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    useEffect(() => {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        const phoneRegex = /^\d{10,11}$/;
 
-        const test = passwordRegex.test(password);
-        console.log(test);
+        const testPassword = passwordRegex.test(password);
+        const testPhone = phoneRegex.test(phone);
 
-        if (test) {
-            console.log("É forte");
-            setStrongPassword(true);
-        } else {
-            setStrongPassword(false);
+
+        testPassword ? setStrongPassword(true) : setStrongPassword(false);
+        name && email && testPhone && testPassword ? setValidForm(true) : setValidForm(false);
+
+    }, [name, email, phone, password]);
+
+
+    const createAccount = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const data = await server.post("/users/create", {
+                name,
+                email,
+                phone,
+                password
+            });
+
+            if (data.status === 400) setErrorMessage("E-mail ou telefone já foram cadastrados anteriormente.");
+            else if (data.status === 201) {
+                window.location.replace("/login");
+            }
+
+
+        } catch (error) {
+
+            if (axios.isAxiosError(error)) {
+                if (error.code === "ERR_NETWORK") setErrorMessage("Sem conexão com o servidor. Tente novamente mais tarde");
+            }
         }
+
+        setLoading(false);
     };
 
     return (
         <main className="flex justify-center h-screen items-center">
+            <LoggedIn redirectIfLoggedIn={true} redirectTo="/" />
+            {loading && <Loading />}
+            {errorMessage && <Modal buttonText="Fechar" icon="error" message={errorMessage} funcToClose={() => setErrorMessage("")} />}
+
+
             <div className="lg:border border-gray-300 xl:h-3/4 xl:w-4/6 rounded-xl sm:flex items-center w-screen h-screen">
                 <div className="sm:w-1/3 bg-primary sm:h-full sm:rounded-r-md sm:py-28 flex w-screen h-40">
                     <img src={logo} alt="Click Counter logo" className="sm:w-11/12 w-60 m-auto" />
                 </div>
 
-                <form className="sm:w-2/4 sm:h-5/6 h-4/6 flex flex-wrap justify-center p-5 m-auto w-full">
+                <form className="sm:w-2/4 sm:h-5/6 h-4/6 flex flex-wrap justify-center p-5 m-auto w-full" onSubmit={createAccount}>
                     <div className="flex flex-col w-full">
                         <label htmlFor="name" className="font-nunito text-primary text-lg">Nome completo</label>
                         <Input type="text" placeholder="Digite seu nome" required={true} id="name" onChange={(e) => setName(e.target.value)} />
@@ -50,10 +89,8 @@ export default function CreateAccount() {
 
                     <div className="flex flex-col w-full">
                         <label htmlFor="password" className="font-nunito text-primary text-lg">Senha</label>
-                        <Input type="password" placeholder="Digite sua senha" required={true} id="password" onChange={(e) => {
-                            setPassword(e.target.value);
-                            testForm();
-                        }} />
+                        <Input type="text" placeholder="Digite sua senha" required={true} id="password" onChange={(e) => setPassword(e.target.value)} />
+
                         {strongPassword ? (
                             <p className="font-nunito text-sm text-green-500">Senha forte</p>
                         ) : (
@@ -62,7 +99,7 @@ export default function CreateAccount() {
                     </div>
 
                     <div className="flex w-full sm:gap-6 gap-2 items-center sm:flex-row flex-col">
-                        {strongPassword && <Button value="Criar conta" />}
+                        {validForm && <Button value="Criar conta" />}
                         <a href="/login" className="font-nunito text-sm text-primary">Já tenho uma conta</a>
                     </div>
                 </form>
