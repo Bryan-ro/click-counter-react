@@ -1,5 +1,9 @@
-export default function Home () {
+import NavMenu from "../../components/NavMenu";
+
+export default function Home() {
     return (
-        <h1>Home</h1>
-    ); 
+        <main>
+            <NavMenu page="home" />
+        </main>
+    );
 }
