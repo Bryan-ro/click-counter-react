@@ -6,7 +6,6 @@ import Button from "../../components/PrimaryButton";
 import axios from "axios";
 import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
-import LoggedIn from "../../components/LoggedIn";
 
 export default function CreateAccount() {
     const [name, setName] = useState("");
@@ -61,7 +60,6 @@ export default function CreateAccount() {
 
     return (
         <main className="flex justify-center h-screen items-center">
-            <LoggedIn redirectIfLoggedIn={true} redirectTo="/" />
             {loading && <Loading />}
             {errorMessage && <Modal buttonText="Fechar" icon="error" message={errorMessage} funcToClose={() => setErrorMessage("")} />}
 

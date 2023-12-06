@@ -4,7 +4,6 @@ import Input from "../../components/Input";
 import Button from "../../components/PrimaryButton";
 import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
-import LoggedIn from "../../components/LoggedIn";
 import logo from "/whiteLogo.png";
 import React, { useState } from "react";
 import Cookie from "universal-cookie";
@@ -65,8 +64,6 @@ export default function Login() {
 
     return (
         <main className="flex justify-center h-screen items-center">
-            <LoggedIn redirectTo="/" redirectIfLoggedIn={true} />
-
             {ModalMessage.active && (
                 <Modal icon={ModalMessage.icon} message={ModalMessage.message} buttonText="OK" funcToClose={() => setModalMessage({
                     active: false,
