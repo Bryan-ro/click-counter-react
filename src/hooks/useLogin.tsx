@@ -3,6 +3,7 @@ import server from "../api/server";
 
 export default function useLogin() {
     const [login, setLogin] = useState(false);
+    const [name, setName] = useState("");
 
     useEffect(() => {
         const isLoggedIn = () => {
@@ -11,6 +12,7 @@ export default function useLogin() {
             }).then((response) => {
                 if (response.status === 200) {
                     setLogin(true);
+                    setName(response.data.user);
                 } else {
                     setLogin(false);
                 }
@@ -24,5 +26,5 @@ export default function useLogin() {
         return () => clearInterval(setIntervalId);
     }, []);
 
-    return login;
+    return { login, name };
 }

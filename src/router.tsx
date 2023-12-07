@@ -5,7 +5,7 @@ import CreateAccount from "./pages/createAccount/CreateAccount";
 import useLogin from "./hooks/useLogin";
 
 export default function Router() {
-    const login = useLogin();
+    const { login } = useLogin();
 
     return (
         <Routes>
