@@ -8,7 +8,9 @@ export default function useLogin() {
     useEffect(() => {
         const isLoggedIn = () => {
             server.post("/users/already-logged-in", {}, {
-                withCredentials: true
+                headers: {
+                    token: localStorage.getItem("token")
+                }
             }).then((response) => {
                 if (response.status === 200) {
                     setLogin(true);
