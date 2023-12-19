@@ -42,12 +42,7 @@ export default function Home() {
             const randomUrl = await server.post("/short/custom", {
                 originalUrl: url,
                 customUrl: customUrl.replace("/", "")
-            },
-                {
-                    headers: {
-                        token: localStorage.getItem("token")
-                    }
-                });
+            });
 
             if (randomUrl.status !== 200) {
                 setModalMessage({

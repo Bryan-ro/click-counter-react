@@ -7,11 +7,7 @@ export default function useLogin() {
 
     useEffect(() => {
         const isLoggedIn = () => {
-            server.post("/users/already-logged-in", {}, {
-                headers: {
-                    token: localStorage.getItem("token")
-                }
-            }).then((response) => {
+            server.post("/users/already-logged-in", {}, {}).then((response) => {
                 if (response.status === 200) {
                     setLogin(true);
                     setName(response.data.user);

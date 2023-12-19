@@ -7,6 +7,9 @@ const server: AxiosInstance = axios.create({
     },
     timeout: 10000,
     timeoutErrorMessage: "Failed to connect to the server, please try again later",
+    headers: {
+        authorization: localStorage.getItem("token")
+    }
 });
 
 export default server;
