@@ -4,6 +4,7 @@ import server from "../api/server";
 export default function useLogin() {
     const [login, setLogin] = useState(false);
     const [name, setName] = useState("");
+    const [logLoading, setLogLoading] = useState(true);
 
     useEffect(() => {
         const isLoggedIn = () => {
@@ -14,15 +15,15 @@ export default function useLogin() {
                 } else {
                     setLogin(false);
                 }
-            });
+            }).finally(() => setLogLoading(false));
         };
 
         isLoggedIn();
 
-        const setIntervalId = setInterval(isLoggedIn, 60000);
+        const setIntervalId = setInterval(isLoggedIn, 25000);
 
         return () => clearInterval(setIntervalId);
     }, []);
 
-    return { login, name };
+    return { login, name, logLoading };
 }
