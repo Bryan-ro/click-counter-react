@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const server: AxiosInstance = axios.create({
-    baseURL: "https://click-counter-1xq1.onrender.com",
+    baseURL: "https://click-counter.fly.dev",
     validateStatus: (status) => {
         return status < 500;
     },
