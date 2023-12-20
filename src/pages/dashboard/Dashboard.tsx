@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 interface urlsProps {
     originalUrl: string;
     shortUrl: string;
+    shortUrlCode: string;
     clicksQuantity: number;
 }
 
@@ -14,7 +15,6 @@ interface urlsProps {
 export default function Dashboard() {
     const { login } = useLogin();
     const [ownUrls, setOwnUrls] = useState([] as urlsProps[]);
-    let lineTableColor = 0;
 
     useEffect(() => {
         server.get("/urls").then((response) => {
@@ -25,7 +25,7 @@ export default function Dashboard() {
     return (
         <Main page="dashboard" >
             {!login && (
-                <div className="h-full">
+                <div className="h-full sm:w-full w-screen">
                     <div className="h-full m-auto w-3/4 flex items-center justify-center flex-col gap-14">
                         <h1 className="font-nunito text-4xl text-center">Para ter acesso às estatisticas de suas urls ecurtadas, clique abaixo e faça login.</h1>
                         <Button value="Login" onClick={() => window.location.replace("/login")} />
@@ -34,31 +34,30 @@ export default function Dashboard() {
             )}
 
             {login && (
-                <section className="h-full flex items-center justify-center">
+                <section className="h-full sm:w-full w-screen flex items-center justify-center">
                     <div className="w-5/6 h-5/6">
-                        <div className="flex w-2/4 gap-6">
+                        <div className="flex sm:w-2/4 gap-6">
                             <h1 className="font-nunito text-3xl">Minhas Urls</h1>
-                            <div className="w-2/4 flex justify-start items-center">
+                            <div className="sm:w-2/4 w-full flex sm:justify-start justify-center items-center">
                                 <Button value={"Encurtar"} onClick={() => window.location.href = "/"} />
                             </div>
                         </div>
 
                         <section className="h-full">
-                            <div className="w-full m-4 text-center font-nunito flex flex-col">
+                            <div className="w-full mt-4 text-center font-nunito flex flex-col">
                                 <div className="border-b h-14 text-primary flex items-center justify-center mb-5">
-                                    <div className="w-1/3">Url original</div>
-                                    <div className="w-1/3">Url encurtada</div>
-                                    <div className="w-1/3">Quantidade de Clicks</div>
+                                    <div className="w-1/3 sm:block hidden">Url original</div>
+                                    <div className="sm:w-1/3 w-1/2">Url encurtada</div>
+                                    <div className="sm:w-1/3 w-1/2">Quantidade de Clicks</div>
                                 </div>
                                 {
-                                    ownUrls.map((url) => {
-                                        lineTableColor++;
-
+                                    ownUrls.map((url, index) => {
+                                        console.log(index);
                                         return (
-                                            <div className={`h-16 flex items-center justify-center ${lineTableColor % 2 === 0 ? "" : "bg-zinc-200"} rounded-sm p-6`}>
-                                                <div className="w-1/3"><a href={url.originalUrl}>{url.originalUrl.substr(0, 29)}</a></div>
-                                                <div className="w-1/3"><a href={url.shortUrl}>{url.shortUrl}</a></div>
-                                                <div className="w-1/3">{url.clicksQuantity}</div>
+                                            <div key={index} className={`h-16 flex items-center justify-center whitespace-nowrap  ${index % 2 === 0 ? "bg-zinc-200" : ""} rounded-sm sm:p-6 p-0`}>
+                                                <div className="w-1/3 sm:block hidden"><a href={url.originalUrl}>{url.originalUrl.substr(0, 29)}</a></div>
+                                                <div className="w-1/2 text-primary"><a href={url.shortUrl}>{`/${url.shortUrlCode}`}</a></div>
+                                                <div className="sm:w-1/3 w-1/2">{url.clicksQuantity}</div>
                                             </div>
                                         );
                                     })
