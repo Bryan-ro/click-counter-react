@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const server: AxiosInstance = axios.create({
-    baseURL: "http://localhost:4444",
+    baseURL: "https://click-counter-1xq1.onrender.com",
     validateStatus: (status) => {
         return status < 500;
     },

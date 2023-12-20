@@ -33,39 +33,41 @@ export default function Dashboard() {
                 </div>
             )}
 
-            <section className="h-full flex items-center justify-center">
-                <div className="w-5/6 h-5/6">
-                    <div className="flex w-2/4 gap-6">
-                        <h1 className="font-nunito text-3xl">Minhas Urls</h1>
-                        <div className="w-2/4 flex justify-start items-center">
-                            <Button value={"Encurtar"} onClick={() => window.location.href = "/"} />
-                        </div>
-                    </div>
-
-                    <section className="h-full">
-                        <div className="w-full m-4 text-center font-nunito flex flex-col">
-                            <div className="border-b h-14 text-primary flex items-center justify-center mb-5">
-                                <div className="w-1/3">Url original</div>
-                                <div className="w-1/3">Url encurtada</div>
-                                <div className="w-1/3">Quantidade de Clicks</div>
+            {login && (
+                <section className="h-full flex items-center justify-center">
+                    <div className="w-5/6 h-5/6">
+                        <div className="flex w-2/4 gap-6">
+                            <h1 className="font-nunito text-3xl">Minhas Urls</h1>
+                            <div className="w-2/4 flex justify-start items-center">
+                                <Button value={"Encurtar"} onClick={() => window.location.href = "/"} />
                             </div>
-                            {
-                                ownUrls.map((url) => {
-                                    lineTableColor++;
-
-                                    return (
-                                        <div className={`h-16 flex items-center justify-center ${lineTableColor % 2 === 0 ? "" : "bg-zinc-200"} rounded-sm p-6`}>
-                                            <div className="w-1/3"><a href={url.originalUrl}>{url.originalUrl.substr(0, 29)}</a></div>
-                                            <div className="w-1/3"><a href={url.shortUrl}>{url.shortUrl}</a></div>
-                                            <div className="w-1/3">{url.clicksQuantity}</div>
-                                        </div>
-                                    );
-                                })
-                            }
                         </div>
-                    </section>
-                </div>
-            </section>
+
+                        <section className="h-full">
+                            <div className="w-full m-4 text-center font-nunito flex flex-col">
+                                <div className="border-b h-14 text-primary flex items-center justify-center mb-5">
+                                    <div className="w-1/3">Url original</div>
+                                    <div className="w-1/3">Url encurtada</div>
+                                    <div className="w-1/3">Quantidade de Clicks</div>
+                                </div>
+                                {
+                                    ownUrls.map((url) => {
+                                        lineTableColor++;
+
+                                        return (
+                                            <div className={`h-16 flex items-center justify-center ${lineTableColor % 2 === 0 ? "" : "bg-zinc-200"} rounded-sm p-6`}>
+                                                <div className="w-1/3"><a href={url.originalUrl}>{url.originalUrl.substr(0, 29)}</a></div>
+                                                <div className="w-1/3"><a href={url.shortUrl}>{url.shortUrl}</a></div>
+                                                <div className="w-1/3">{url.clicksQuantity}</div>
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            )}
         </Main>
     );
 }

@@ -42,7 +42,7 @@ export default function Login() {
                     message: "Usuário ou senha incorreta.",
                     icon: "error"
                 });
-            } else {
+            } else if (login.status === 200) {
                 localStorage.setItem("token", login.data.token);
                 window.location.replace("/");
             }
