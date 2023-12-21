@@ -22,6 +22,7 @@ export default function Main({ children, ...props }: MainProps) {
 
     const logOut = async () => {
         await server.post("/users/log-out");
+        window.location.reload();
     };
 
     return (
