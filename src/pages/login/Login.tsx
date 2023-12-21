@@ -6,7 +6,6 @@ import Modal from "../../components/Modal";
 import Loading from "../../components/Loading";
 import logo from "/whiteLogo.png";
 import React, { useState } from "react";
-import Cookie from "universal-cookie";
 
 interface loginResponseProps extends AxiosResponse {
     data: {
@@ -26,7 +25,6 @@ export default function Login() {
         icon: "" as "warning" | "success" | "error"
     });
     const [loading, setLoading] = useState(false);
-    const cookie = new Cookie();
 
     const verifyCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -45,9 +43,6 @@ export default function Login() {
                     icon: "error"
                 });
             } else if (login.status === 200) {
-                // localStorage.setItem("token", login.data.token);
-                cookie.set("authorization", login.data.token, { secure: true });
-
                 window.location.replace("/");
             }
         } catch (error) {
