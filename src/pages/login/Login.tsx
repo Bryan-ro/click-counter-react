@@ -46,7 +46,7 @@ export default function Login() {
                 });
             } else if (login.status === 200) {
                 // localStorage.setItem("token", login.data.token);
-                cookie.set("authorization", login.data.token);
+                cookie.set("authorization", login.data.token, { secure: true });
 
                 window.location.replace("/");
             }
