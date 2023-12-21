@@ -21,7 +21,7 @@ export default function Main({ children, ...props }: MainProps) {
     }, []);
 
     const logOut = async () => {
-        await server.post("/log-out");
+        await server.post("/users/log-out");
     };
 
     return (
