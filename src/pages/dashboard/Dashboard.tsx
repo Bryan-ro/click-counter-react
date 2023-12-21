@@ -56,7 +56,6 @@ export default function Dashboard() {
                                     </div>
                                     {
                                         ownUrls.map((url, index) => {
-                                            console.log(index);
                                             return (
                                                 <div key={index} className={`h-16 flex items-center justify-center whitespace-nowrap  ${index % 2 === 0 ? "bg-zinc-200" : ""} rounded-sm sm:p-6 p-0`}>
                                                     <div className="w-1/3 sm:block hidden"><a href={url.originalUrl}>{url.originalUrl.substr(0, 29)}</a></div>

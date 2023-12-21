@@ -1,15 +1,16 @@
 import axios, { AxiosInstance } from "axios";
 
 const server: AxiosInstance = axios.create({
-    baseURL: "https://click-counter.fly.dev",
+    baseURL: "http://localhost:3000",
+    withCredentials: true,
     validateStatus: (status) => {
         return status < 500;
     },
     timeout: 10000,
     timeoutErrorMessage: "Failed to connect to the server, please try again later",
-    headers: {
-        authorization: localStorage.getItem("token")
-    }
+    // headers: {
+    //     authorization: localStorage.getItem("token")
+    // }
 });
 
 export default server;
