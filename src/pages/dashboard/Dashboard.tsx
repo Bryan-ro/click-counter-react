@@ -1,8 +1,8 @@
 import server from "../../api/server";
 import Main from "../../components/Main";
 import Button from "../../components/PrimaryButton";
-import useLogin from "../../hooks/useLogin";
-import { useState, useEffect } from "react";
+import { LoginContext } from "../../context/LoginContext";
+import { useState, useEffect, useContext } from "react";
 import Loading from "../../components/Loading";
 
 interface urlsProps {
@@ -12,17 +12,19 @@ interface urlsProps {
     clicksQuantity: number;
 }
 
-
 export default function Dashboard() {
-    const { login } = useLogin();
+    const { login } = useContext(LoginContext);
     const [ownUrls, setOwnUrls] = useState([] as urlsProps[]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        server.get("/urls").then((response) => {
-            setOwnUrls(response.data.urls);
-        }).finally(() => setLoading(false));
-    }, []);
+        if (login) {
+            setLoading(true);
+            server.get("/urls").then((response) => {
+                setOwnUrls(response.data.urls);
+            }).finally(() => setLoading(false));
+        }
+    }, [login]);
 
     return (
         <>

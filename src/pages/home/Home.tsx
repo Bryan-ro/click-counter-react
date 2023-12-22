@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Main from "../../components/Main";
 import Input from "../../components/Input";
 import Button from "../../components/PrimaryButton";
 import Modal from "../../components/Modal";
 import server from "../../api/server";
-import useLogin from "../../hooks/useLogin";
+import { LoginContext } from "../../context/LoginContext";
 import Loading from "../../components/Loading";
 
 
@@ -21,7 +21,7 @@ export default function Home() {
     });
     const [loading, setLoading] = useState(false);
 
-    const { login } = useLogin();
+    const { login } = useContext(LoginContext);
 
     const generate = async () => {
         setLoading(true);
