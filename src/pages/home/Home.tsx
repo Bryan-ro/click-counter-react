@@ -5,6 +5,7 @@ import Button from "../../components/PrimaryButton";
 import Modal from "../../components/Modal";
 import server from "../../api/server";
 import useLogin from "../../hooks/useLogin";
+import Loading from "../../components/Loading";
 
 
 export default function Home() {
@@ -18,9 +19,12 @@ export default function Home() {
         icon: "" as "warning" | "success" | "error",
         buttonText: ""
     });
+    const [loading, setLoading] = useState(false);
+
     const { login } = useLogin();
 
     const generate = async () => {
+        setLoading(true);
         if (generateType === "random") {
             const randomUrl = await server.post("/short/random", {
                 originalUrl: url
@@ -36,6 +40,8 @@ export default function Home() {
             } else {
                 setGeneratedUrl(randomUrl.data.shortUrl);
             }
+
+            setLoading(false);
         }
 
         if (generateType === "custom") {
@@ -59,6 +65,7 @@ export default function Home() {
 
     return (
         <>
+            {loading && <Loading />}
             {modalMessage.active && (
                 <Modal icon={modalMessage.icon} message={modalMessage.message} funcToClose={() => setModalMessage({ active: false, icon: "error", message: "", buttonText: "" })} buttonText={modalMessage.buttonText} />
             )}
