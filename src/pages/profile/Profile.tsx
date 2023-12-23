@@ -44,8 +44,8 @@ export default function Profile() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
         if (readOnly === true) {
+            setLoading(true);
             server.get("/users/profile")
                 .then((response) => {
                     const profile: profileProps = response.data;
