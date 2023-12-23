@@ -127,8 +127,8 @@ export default function Profile() {
             <Main page="profile">
                 {login && (
                     <div className="h-full sm:w-full w-screen flex items-center justify-center">
-                        <div className="w-4/6 h-full flex justify-center items-center">
-                            <section className="w-5/12 h-full flex justify-center">
+                        <div className="sm:w-4/6 w-screen h-full flex sm:flex-row flex-col justify-center items-center">
+                            <section className="sm:w-5/12 w-full sm:h-full h-2/6 flex justify-center">
                                 <div className="w-full h-80 flex items-center justify-center flex-col gap-10">
                                     <button className={`${readOnly ? "bg-primary" : "bg-red-500"} rounded-lg w-4/5 h-10 text-white font-bold font-nunito p-2 flex items-center justify-center gap-5`} onClick={() => readOnly ? setReadOnly(false) : setReadOnly(true)}>
                                         <img src={`${readOnly ? "/Pencil.png" : "/Close.png"}`} />
@@ -145,7 +145,7 @@ export default function Profile() {
                             </section>
 
 
-                            <form className="w-7/12 h-full flex flex-col gap-4 p-7" onSubmit={updateProfile}>
+                            <form className="sm:w-7/12 w-full h-full flex flex-col gap-4 p-7" onSubmit={updateProfile}>
                                 <div className="flex flex-col w-full">
                                     <label htmlFor="name" className="font-nunito text-primary text-lg">Nome completo</label>
                                     <Input type="text" placeholder="Digite seu nome" required={true} id="name" onChange={(e) => setName(e.target.value)} readonly={readOnly} value={name} />

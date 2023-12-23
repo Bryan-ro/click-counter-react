@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const server: AxiosInstance = axios.create({
-    baseURL: "https://click-counter.fly.dev",
+    baseURL: "http://localhost:3000",
     withCredentials: true,
     validateStatus: (status) => {
         return status < 500;
