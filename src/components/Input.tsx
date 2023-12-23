@@ -9,10 +9,21 @@ interface InputProps {
     required?: boolean
     mask?: string;
     maxLength?: number;
+    readonly?: boolean;
+    value?: string;
 }
 
 export default function Input(props: InputProps) {
     return (
-        <InputMask type={props.type} placeholder={props.placeholder} className="rounded-md focus:outline-none border indent-2 h-10" id={props.id} onChange={props.onChange} required={props.required} mask={props.mask ?? ""} maskChar={null} maxLength={props.maxLength} />
+        <InputMask
+            type={props.type}
+            placeholder={props.placeholder}
+            className="rounded-md focus:outline-none border indent-2 h-10"
+            id={props.id} onChange={props.onChange}
+            required={props.required} mask={props.mask ?? ""}
+            maskChar={null} maxLength={props.maxLength}
+            readOnly={props.readonly}
+            value={props.value}
+        />
     );
 }

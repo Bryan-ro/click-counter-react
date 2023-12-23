@@ -5,6 +5,8 @@ import Login from "./pages/login/Login";
 import CreateAccount from "./pages/createAccount/CreateAccount";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { LoginContext } from "./context/LoginContext";
+import Profile from "./pages/profile/Profile";
+
 export default function Router() {
     const { login } = useContext(LoginContext);
 
@@ -15,6 +17,7 @@ export default function Router() {
             <Route path="/login" element={!login ? <Login /> : <Navigate to="/" replace={true} />} />
             <Route path="/account/create" element={!login ? <CreateAccount /> : <Navigate to="/" replace={true} />} />
             <Route path="/account/create" element={!login ? <CreateAccount /> : <Navigate to="/" replace={true} />} />
+            <Route path="/profile" element={<Profile />} />
         </Routes>
     );
 }

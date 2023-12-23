@@ -40,8 +40,6 @@ export default function Home() {
             } else {
                 setGeneratedUrl(randomUrl.data.shortUrl);
             }
-
-            setLoading(false);
         }
 
         if (generateType === "custom") {
@@ -61,6 +59,8 @@ export default function Home() {
                 setGeneratedUrl(randomUrl.data.shortUrl);
             }
         }
+
+        setLoading(false);
     };
 
     return (
