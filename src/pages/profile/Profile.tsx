@@ -44,6 +44,7 @@ export default function Profile() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         if (readOnly === true) {
             server.get("/users/profile")
                 .then((response) => {
@@ -54,6 +55,7 @@ export default function Profile() {
                     setPhone(profile.profile.phone);
                 });
         }
+        setLoading(true);
     }, [readOnly]);
 
 
