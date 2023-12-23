@@ -55,7 +55,7 @@ export default function Profile() {
                     setPhone(profile.profile.phone);
                 });
         }
-        setLoading(true);
+        setLoading(false);
     }, [readOnly]);
 
 
