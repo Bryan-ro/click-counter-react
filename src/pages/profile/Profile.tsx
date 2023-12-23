@@ -53,9 +53,8 @@ export default function Profile() {
                     setName(profile.profile.name);
                     setEmail(profile.profile.email);
                     setPhone(profile.profile.phone);
-                });
+                }).finally(() => setLoading(false));
         }
-        setLoading(false);
     }, [readOnly]);
 
 
